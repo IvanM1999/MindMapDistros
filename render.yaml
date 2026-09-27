@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: orbita-atlas
+    runtime: static
+    buildCommand: >-
+      node --version && node -e 'const fs=require("fs");const data=JSON.parse(fs.readFileSync("systems-map.json","utf8"));const ids=new Set(data.nodes.map(node=>node.id));if(!ids.has(data.root))throw new Error("Raiz não encontrada");for(const edge of data.edges){if(!ids.has(edge.from)||!ids.has(edge.to))throw new Error(`Relação inválida: ${edge.from} -> ${edge.to}`)}console.log(`${data.nodes.length} entidades e ${data.edges.length} relações validadas`)'
+    staticPublishPath: .
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
